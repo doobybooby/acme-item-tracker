@@ -19,6 +19,52 @@ const store = createStore((state = initialState, action)=> {
   if(action.type === 'CREATE_THING'){
     return {...state, things: [...state.things, action.thing ]}; 
   }
+  if(action.type === 'CREATE_USER'){
+    return {...state, users: [...state.users, action.user ]}; 
+  }
+  if(action.type === 'DELETE_THING'){
+    return {
+      ...state, 
+      things: state.things.filter(thing => {
+        if(thing.id !== action.id){
+          console.log('inside', thing)
+          return thing
+        }
+      })
+    }; 
+  }
+  if(action.type === 'DELETE_USER'){
+    return {
+      ...state, 
+      users: state.users.filter(user => {
+        if(user.id !== action.id){
+          return user
+        }
+      })
+    }; 
+  }
+  if(action.type === 'ADD_RANK'){
+    return{
+      ...state, 
+      things: state.things.filter(thing => {
+        if(thing.id === action.thing.id){
+          thing.ranking++
+        }
+        return thing
+      })
+    }; 
+  }
+  if(action.type === 'SUBTRACT_RANK'){
+    return{
+      ...state, 
+      things: state.things.filter(thing => {
+        if(thing.id === action.thing.id){
+          thing.ranking--
+        }
+        return thing
+      })
+    }; 
+  }
   return state;
 });
 

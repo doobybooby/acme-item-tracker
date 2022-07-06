@@ -8,6 +8,14 @@ app.use('/dist', express.static('dist'));
 
 app.get('/', (req, res)=> res.sendFile(path.join(__dirname, 'index.html')));
 
+app.post('/api/users', async(req, res, next)=> {
+  try {
+    res.status(201).send(await User.create(req.body));
+  }
+  catch(ex){
+    next(ex);
+  }
+});
 
 app.post('/api/things', async(req, res, next)=> {
   try {
@@ -17,6 +25,7 @@ app.post('/api/things', async(req, res, next)=> {
     next(ex);
   }
 });
+
 app.get('/api/things', async(req, res, next)=> {
   try {
     res.send(await Thing.findAll());
@@ -34,6 +43,23 @@ app.get('/api/users', async(req, res, next)=> {
     next(ex);
   }
 });
+
+app.delete('/api/things/:id', async(req, res, next)=> {
+  try{
+    res.sendStatus(204).send(await Thing.detroy( {where: { id: req.params.id }} ))
+  }
+  catch(er){
+    next(er)
+  }
+})
+app.delete('/api/users/:id', async(req, res, next)=> {
+  try{
+    res.sendStatus(204).send(await User.detroy( {where: { id: req.params.id }} ))
+  }
+  catch(er){
+    next(er)
+  }
+})
 
 
 const port = process.env.PORT || 3000;
