@@ -69,12 +69,28 @@ app.listen(port, ()=> console.log(`listening on port ${port}`));
 const init = async()=> {
   try {
     await conn.sync({ force: true });
-    const [moe, larry, lucy, ethyl] = await Promise.all(
-      ['moe', 'larry', 'lucy', 'ethyl'].map( name => User.create({ name }))
-    );
-    const [foo, bar, bazz, quq, fizz] = await Promise.all(
-      ['foo', 'bar', 'bazz', 'quq', 'fizz'].map( name => Thing.create({ name }))
-    );
+
+    const [foo, bar, bazz, quq, fizz] = await Promise.all([
+      Thing.create({ name:'foo'}),
+      Thing.create({ name:'bar'}),
+      Thing.create({ name:'bazz'}),
+      Thing.create({ name:'quq'}),
+      Thing.create({ name: 'fizz'}),
+    ]);
+
+    const [moe, larry, lucy, ethyl] = await Promise.all([
+      User.create({ name:'moe' , thingId: foo.id}),
+      User.create({ name:'larry', thingId: bar.id}),
+      User.create({ name:'lucy', thingId: quq.id }),
+      User.create({ name:'ethyl' }),
+    ]);
+
+
+    foo.userId = moe.id
+    bar.userId= larry.id
+    foo.save()
+    bar.save()
+
   }
   catch(ex){
     console.log(ex);

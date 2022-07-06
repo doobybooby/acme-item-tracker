@@ -5,6 +5,7 @@ import axios from 'axios';
 
 const Things = ({ things, deleteThing, addRank, subtractRank })=> {
   things.sort((a,b)=> b.ranking - a.ranking )
+  console.log(things)
   return (
     <div>
       <h1>Things</h1>

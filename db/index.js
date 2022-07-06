@@ -1,5 +1,5 @@
 const Sequelize = require('sequelize');
-const conn = new Sequelize(process.env.DATABASE_URL || 'postgres://localhost/the_acme_item_tracker_db');
+const conn = new Sequelize(process.env.DATABASE_URL || 'postgres://postgres:admin@localhost/the_acme_item_tracker_db');
 
 const { STRING, INTEGER } = Sequelize;
 
@@ -20,7 +20,9 @@ const Thing = conn.define('thing', {
 });
 
 Thing.belongsTo(User)
+User.belongsTo(Thing)
 User.hasMany(Thing)
+Thing.hasMany(User)
 
 module.exports = {
   conn,

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import axios from 'axios'
 
 const Users = ({ users, deleteUser })=> {
-
+  console.log(users)
   return (
     <div>
       <h1>Users</h1>
