@@ -79,18 +79,18 @@ const init = async()=> {
     ]);
 
     const [moe, larry, lucy, ethyl] = await Promise.all([
-      User.create({ name:'moe' , thingId: foo.id}),
-      User.create({ name:'larry', thingId: bar.id}),
+      User.create({ name:'moe', thingId:foo.id}),
+      User.create({ name:'larry'}),
       User.create({ name:'lucy', thingId: quq.id }),
       User.create({ name:'ethyl' }),
     ]);
 
 
     foo.userId = moe.id
-    bar.userId= larry.id
+    // bar.userId= larry.id
     foo.save()
-    bar.save()
-    lucy.save()
+    // bar.save()
+    // lucy.save
 
   }
   catch(ex){

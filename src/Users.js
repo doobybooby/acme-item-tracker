@@ -3,7 +3,7 @@ import UserForm from './UserForm'
 import { connect } from 'react-redux';
 import axios from 'axios'
 
-const Users = ({ users, deleteUser })=> {
+const Users = ({ users, things, deleteUser })=> {
   console.log(users)
   return (
     <div>
@@ -15,6 +15,16 @@ const Users = ({ users, deleteUser })=> {
               <li key={ user.id }>
                 { user.name }
                 <button onClick={()=> deleteUser(user.id)}>DELETE</button>
+                {
+                    things.map(thing => {
+                      if(thing.Id !== null && user.thingId !== null && user.thingId === thing.userId){
+                        console.log('user', user.thingId, user.name, 'owns', thing.userId, thing.name)
+                        return <>
+                          <p key={thing.id}>BELONGS TO:{thing.name}</p>
+                        </>
+                      }
+                    })
+                  }
               </li>
             );
           })
@@ -37,7 +47,8 @@ const mapDispatchToProps = (dispatch)=> {
 export default connect(
   (state)=> {
     return {
-      users: state.users
+      users: state.users,
+      things: state.things
     }
   },
   mapDispatchToProps
