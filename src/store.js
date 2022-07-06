@@ -26,7 +26,7 @@ const store = createStore((state = initialState, action)=> {
     return {
       ...state, 
       things: state.things.filter(thing => {
-        if(thing.id !== action.id){
+        if(thing.id !== action.thing.id){
           console.log('inside', thing)
           return thing
         }

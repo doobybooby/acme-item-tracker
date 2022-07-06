@@ -90,6 +90,7 @@ const init = async()=> {
     bar.userId= larry.id
     foo.save()
     bar.save()
+    lucy.save()
 
   }
   catch(ex){

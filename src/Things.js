@@ -3,9 +3,9 @@ import ThingForm from './ThingForm';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-const Things = ({ things, deleteThing, addRank, subtractRank })=> {
+const Things = ({users, things, deleteThing, addRank, subtractRank })=> {
   things.sort((a,b)=> b.ranking - a.ranking )
-  console.log(things)
+  console.log(users)
   return (
     <div>
       <h1>Things</h1>
@@ -18,7 +18,17 @@ const Things = ({ things, deleteThing, addRank, subtractRank })=> {
                 <p>RANKING: { thing.ranking }</p>
                 <button onClick={()=> addRank(thing)}>+</button>
                 <button onClick={()=> subtractRank(thing)}>-</button>
-                <button onClick={()=> deleteThing(thing.id)}>DELETE</button>
+                <button onClick={()=> deleteThing(thing)}>DELETE</button>
+                  {
+                    users.map(user => {
+                      if(user.thingId !== null && thing.userId !== null && user.thingId === thing.userId){
+                        console.log('user', user.thingId, user.name, 'owns', thing.userId, thing.name)
+                        return <>
+                          <p key={user.id}>BELONGS TO:{user.name}</p>
+                        </>
+                      }
+                    })
+                  }
               </li>
             );
           })
@@ -31,9 +41,9 @@ const Things = ({ things, deleteThing, addRank, subtractRank })=> {
 
 const mapDispatchToProps = (dispatch)=> {
   return {
-    deleteThing: async(id)=> {
-      await axios.delete(`/api/things/${id}`);
-      dispatch({ type: 'DELETE_THING', id });
+    deleteThing: async(thing)=> {
+      await axios.delete(`/api/things/${thing.id}`);
+      dispatch({ type: 'DELETE_THING', thing });
     },
 
     addRank: (thing)=> {
@@ -49,7 +59,8 @@ const mapDispatchToProps = (dispatch)=> {
 export default connect(
   (state)=> {
     return {
-      things: state.things
+      things: state.things,
+      users: state.users
     }
   },
   mapDispatchToProps
